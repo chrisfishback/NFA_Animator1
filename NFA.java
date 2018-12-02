@@ -14,6 +14,7 @@ public class NFA
     private ArrayList<State> listOfStates;
     private boolean isNFA;
     int startState;
+    int numStates;
     
     /**
      * Constructor for objects of class NFA
@@ -65,6 +66,8 @@ public class NFA
                 lineNum++;
             }
 
+            
+            numStates = (lineNum-2);
             //close file
             bufferedReader.close();
         } 
