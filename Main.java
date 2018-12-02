@@ -13,9 +13,11 @@ public class Main
     /**
      * Constructor for objects of class Main
      */
-    public static void Main(String[] args)
+    public static void Main()
     {
+        NFA nfa = new NFA();
+        nfa.createNFA();
         
+        System.out.println("end of program");
     }
-
 }
