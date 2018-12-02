@@ -9,24 +9,26 @@
 public class State
 {
     private boolean acceptState;
-    private boolean startState;
     private int zero;
     private int one;
     
     /**
      * Constructor for objects of class state
      */
-    public State()
+    public State(int z, int o, int accept)
     {
-        acceptState = false;
-        startState = false;
-        zero = -1;
-        one = -1;
+        if(accept == 0)
+            acceptState = true;
+        else
+            acceptState = false;
+        
+        zero = z;
+        one = o;
     }
 
     public boolean checkAccept()
     {
-        return true;
+        return acceptState;
     }
     
 }
