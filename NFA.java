@@ -23,6 +23,7 @@ public class NFA
     {
         listOfStates = new ArrayList<State>();
         isNFA = false;
+        numStates = 0;
     }
 
     public void createNFA(String fileName)
@@ -34,40 +35,78 @@ public class NFA
         //big poo
         //info for states
         int lineNum = 1; //for line in text file
-        int zeroTrans = 0;
-        int oneTrans = 0;
         int accState = -1;
         
         try {
             // FileReader reads text files in the default encoding
             FileReader fileReader = new FileReader(fileName);
 
+            ArrayList<Integer> zeroTrans = new ArrayList<Integer>(); //temp 
+            ArrayList<Integer> oneTrans = new ArrayList<Integer>(); //temp
+           
             // Always wrap FileReader in BufferedReader
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+            int index = 0; //index if you couldnt tell by the name, once it is 3 skip the next node name
+            
             while((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
                 
+                //gets the start state
                 if(lineNum == 1)
                     startState = Integer.parseInt(line);
-                
+                    
+                //gets the state acceptance, and transitions for each state
                 if(lineNum > 1)
                 {
-                    String[] tmp = line.split(" ");    //Split at the spaces
+                    //skip name of state
+                    if(index == 0)
+                    {
+                        index++;
+                        continue;
+                    }
                     
-                    zeroTrans = Integer.parseInt(tmp[1]);
-                    oneTrans = Integer.parseInt(tmp[2]);
-                    accState = Integer.parseInt(tmp[3]);
+                    //get all zero transitions
+                    if(index == 1) 
+                    {
+                        String[] tmp = line.split(" ");    //Split at the spaces
+                        for(String s: tmp)
+                            zeroTrans.add(Integer.parseInt(s));
+                    }
+                        
+                    //get all one transitions
+                    if(index == 2) 
+                    {
+                        String[] tmp = line.split(" ");    //Split at the spaces
+                        for(String s: tmp)
+                            zeroTrans.add(Integer.parseInt(s));
+                    }
                     
-                    listOfStates.add(new State(zeroTrans, oneTrans, accState));
+                    //get the acceptance
+                    if(index == 3) 
+                    {
+                        accState = Integer.parseInt(line);
+                        
+                        listOfStates.add(new State(zeroTrans, oneTrans, accState));
+                        index = 0;
+                    
+                        //reset temp trans array lists
+                        zeroTrans.clear();
+                        oneTrans.clear();
+                        
+                        //increase number of states
+                        numStates++;
+                        
+                        //continue onto the next part of the loop
+                        continue;
+                    }
                 
+                    index++;
                 }
                 
                 lineNum++;
             }
 
-            
-            numStates = (lineNum-2);
             //close file
             bufferedReader.close();
         } 
