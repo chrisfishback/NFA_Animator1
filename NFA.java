@@ -24,10 +24,10 @@ public class NFA
         isNFA = false;
     }
 
-    public void createNFA()
+    public void createNFA(String fileName)
     {
         //for seeing the file
-        String fileName = "testCase1.txt";
+        //String fileName = "testCase1.txt";
         String line = null;
         
         //big poo
@@ -62,13 +62,6 @@ public class NFA
                 
                 }
                 
-                System.out.println(zeroTrans);
-                System.out.println(oneTrans);
-                System.out.println(accState);
-                
-                System.out.println(listOfStates);
-                System.out.println("\n\n\n\n\n");
-                
                 lineNum++;
             }
 
@@ -76,6 +69,7 @@ public class NFA
             bufferedReader.close();
         } 
         catch(IOException ex) {
+            //output error message
             System.out.println("Error reading file '" + fileName + "'");
         }
     }
