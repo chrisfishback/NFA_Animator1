@@ -26,6 +26,9 @@ public class Main
         //create the NFA
         nfa.createNFA(testCase);
         
+        //input for string to run through nfa
+        System.out.print("Enter a string of 1's and 0's: "); //testCase1.txt
+        String inputString = scan.nextLine();
         
         System.out.println("end of program");
     }
