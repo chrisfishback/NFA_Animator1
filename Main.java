@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 /**
  * Main class
@@ -16,7 +17,15 @@ public class Main
     public static void Main()
     {
         NFA nfa = new NFA();
-        nfa.createNFA();
+        
+        //input for filename 
+        Scanner scan = new Scanner( System.in );
+        System.out.print("Enter the filename w/ the extension (ie. input.txt): "); //testCase1.txt
+        String testCase = scan.nextLine();
+        
+        //create the NFA
+        nfa.createNFA(testCase);
+        
         
         System.out.println("end of program");
     }
