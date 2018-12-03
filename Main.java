@@ -35,7 +35,7 @@ public class Main
     {
 
         NFA nfa = new NFA();
-
+        shortPath = new ArrayList<Node>();
         
 
         //input for filename 
