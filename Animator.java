@@ -37,33 +37,16 @@ public class Animator
     public void paint (Graphics canvas, int numStates)
     {
         int node=numStates;
-        int i=0;
+        int i=1;
         String nodeNames="q0 q1 q2 q3 q4 q5 q6 q7 q8 q9";
         int nameEachNode= nodeNames.length();
         char name=nodeNames.charAt(10);
-
+        this.startNode(canvas, x, y);
         while (i < node)
         {
-
+            this.node(canvas,x*i,y);
             i++;
-            /**
-             * if q0 goes to q1
-             * {
-             *     canvas.drawLine(i*x,y,(i+1)*x,y);
-             *     canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
-             *     canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
-             * }
-             */
         }
-        /**int node=numStates;
-        //poop* int i=0;
-        while (i < node)
-        {
-        canvas.fillOval(i*x,y, diameter, diameter);
-        i++;
-        }
-
-         */
     }
 
     public void printInputString()
@@ -104,24 +87,6 @@ public class Animator
         canvas.fillOval(x,y, diameter, diameter);//node
 
     }
-
-    /**
-    public void lineToNextNode(Graphics canvas, int x, int y)
-    {
-    canvas.drawLine(i,i,i*(x/2),y/2);
-    canvas.drawLine(i,i,x,y);
-    canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
-    canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
-    }
-
-    public void lineToNodeTwoAway(Graphics canvas, int x, int y)
-    {
-    canvas.drawLine(i,i,i*(x/2),y/2);
-    canvas.drawLine(i,i,x,y);
-    canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
-    canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
-    }
-     */
 
     public void lineToSameNode(Graphics canvas, int x, int y)
     {
