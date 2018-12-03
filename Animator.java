@@ -20,15 +20,13 @@ public class Animator
     protected int y = 100; // my y coordinate
     protected int diameter = 50; //my diameter
 
-    public Animator(int initX, int initY)
+    public Animator(int string)
     {
         nfa= new NFA();
         currentState = -1;
         JFrame myFrame = new JFrame();
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setSize(1000,1000);
-        this.x = initX;
-        this.y = initY;
     }
 
     public void animateNFA()
