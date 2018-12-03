@@ -11,24 +11,22 @@ import java.io.*;
  */
 public class State
 {
-    private boolean acceptState;
+    public boolean acceptState;
     public List<Integer> zeroList;
     public List<Integer> oneList;
-    private int zero;
-    private int one;
     
     /**
      * Constructor for objects of class state
      */
     public State(List<Integer> z, List<Integer> o, int accept)
     {
-        if(accept == 0)
+        if(accept == 1)
             acceptState = true;
-        else
+        else if(accept == 0)
             acceptState = false;
         
-        zeroList = z;
-        oneList = o;
+        zeroList = new ArrayList(z);   
+        oneList = new ArrayList(o);
     }
 
     public boolean checkAccept()
