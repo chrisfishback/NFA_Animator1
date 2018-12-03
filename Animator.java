@@ -44,7 +44,7 @@ public class Animator
 
         while (i < node)
         {
-            
+
             i++;
             /**
              * if q0 goes to q1
@@ -55,49 +55,77 @@ public class Animator
              * }
              */
         }
-            /**int node=numStates;
-             //poop* int i=0;
-            while (i < node)
-            {
-            canvas.fillOval(i*x,y, diameter, diameter);
-            i++;
-            }
+        /**int node=numStates;
+        //poop* int i=0;
+        while (i < node)
+        {
+        canvas.fillOval(i*x,y, diameter, diameter);
+        i++;
+        }
 
-             */
+         */
     }
 
     public void printInputString()
     {
 
     }
-    
+
     public void node(Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.WHITE);
         canvas.fillOval(x,y, diameter, diameter);
-        
     }
-    
+
     public void onNode(Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.RED);
         canvas.fillOval(x,y, diameter, diameter);
     }
+
+    public void startNode (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);//node
+        canvas.drawLine(x-50,y,x-75,y-20);//triangle
+        canvas.drawLine(x-75,y-20,x-75,y+20);
+        canvas.drawLine(x-75,y+20,x-50,y);
+    }
+
+    public void acceptNode (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.fillOval(x,y, diameter+12, diameter+12);
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter+8, diameter+8);
+        canvas.setColor(Color.BLACK);
+        canvas.fillOval(x,y, diameter+4, diameter+4);
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);//node
+
+    }
+
     /**
     public void lineToNextNode(Graphics canvas, int x, int y)
     {
-        canvas.drawLine(i,i,i*(x/2),y/2);
-        canvas.drawLine(i,i,x,y);
-        canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
-        canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
+    canvas.drawLine(i,i,i*(x/2),y/2);
+    canvas.drawLine(i,i,x,y);
+    canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
+    canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
     }
-    
+
     public void lineToNodeTwoAway(Graphics canvas, int x, int y)
     {
-        canvas.drawLine(i,i,i*(x/2),y/2);
-        canvas.drawLine(i,i,x,y);
-        canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
-        canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
+    canvas.drawLine(i,i,i*(x/2),y/2);
+    canvas.drawLine(i,i,x,y);
+    canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
+    canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
     }
-    */
+     */
+
+    public void lineToSameNode(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawArc (x, y, 20, 25,0,180);
+    }
 }
