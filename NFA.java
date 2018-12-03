@@ -11,8 +11,7 @@ import java.io.*;
  */
 public class NFA
 {
-    private ArrayList<State> listOfStates;
-    private boolean isNFA;
+    public ArrayList<State> listOfStates;
     int startState;
     int numStates;
     
@@ -22,10 +21,9 @@ public class NFA
     public NFA()
     {
         listOfStates = new ArrayList<State>();
-        isNFA = false;
         numStates = 0;
     }
-
+    
     public void createNFA(String fileName)
     {
         //for seeing the file
@@ -79,7 +77,7 @@ public class NFA
                     {
                         String[] tmp = line.split(" ");    //Split at the spaces
                         for(String s: tmp)
-                            zeroTrans.add(Integer.parseInt(s));
+                            oneTrans.add(Integer.parseInt(s));
                     }
                     
                     //get the acceptance
