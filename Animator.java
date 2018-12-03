@@ -38,33 +38,68 @@ public class Animator
 
     public void paint (Graphics canvas, int numStates)
     {
-        canvas.setColor(Color.WHITE);
         int node=numStates;
         int i=0;
         String nodeNames="q0 q1 q2 q3 q4 q5 q6 q7 q8 q9";
-        int a= nodeNames.length();
+        int nameEachNode= nodeNames.length();
         char name=nodeNames.charAt(10);
-        while (i < node)
-        {
-            canvas.fillOval(i*x,y, diameter, diameter);
-            //canvas.drawString(i,i*(x/2),y/2);
-            i++;
-            
-        }
-        
-        /**int node=numStates;
-        * int i=0;
-        while (i < node)
-        {
-        canvas.fillOval(i*x,y, diameter, diameter);
-        i++;
-        }
 
-         */
+        while (i < node)
+        {
+            
+            i++;
+            /**
+             * if q0 goes to q1
+             * {
+             *     canvas.drawLine(i*x,y,(i+1)*x,y);
+             *     canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
+             *     canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
+             * }
+             */
+        }
+            /**int node=numStates;
+             //poop* int i=0;
+            while (i < node)
+            {
+            canvas.fillOval(i*x,y, diameter, diameter);
+            i++;
+            }
+
+             */
     }
 
     public void printInputString()
     {
 
     }
+    
+    public void node(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);
+        
+    }
+    
+    public void onNode(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.RED);
+        canvas.fillOval(x,y, diameter, diameter);
+    }
+    /**
+    public void lineToNextNode(Graphics canvas, int x, int y)
+    {
+        canvas.drawLine(i,i,i*(x/2),y/2);
+        canvas.drawLine(i,i,x,y);
+        canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
+        canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
+    }
+    
+    public void lineToNodeTwoAway(Graphics canvas, int x, int y)
+    {
+        canvas.drawLine(i,i,i*(x/2),y/2);
+        canvas.drawLine(i,i,x,y);
+        canvas.drawLine(i*x-(25),y,(i+1)*x,y-10);
+        canvas.drawLine(i*x-(25),y,(i+1)*x,y+10);
+    }
+    */
 }
