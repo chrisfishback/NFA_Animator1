@@ -70,9 +70,8 @@ public class Animator
     {
         canvas.setColor(Color.WHITE);
         canvas.fillOval(x,y, diameter, diameter);//node
-        canvas.drawLine(x-50,y,x-75,y-20);//triangle
-        canvas.drawLine(x-75,y-20,x-75,y+20);
-        canvas.drawLine(x-75,y+20,x-50,y);
+        canvas.drawLine(x-50,y,x-75,y-20);//arrowhead
+        canvas.drawLine(x-50,y,x-75,y+20);
     }
 
     public void acceptNode (Graphics canvas, int x, int y)
@@ -91,6 +90,8 @@ public class Animator
     public void lineToSameNode(Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.BLACK);
-        canvas.drawArc (x, y, 20, 25,0,180);
+        canvas.drawArc (x, y, 20, 25,0,360);
+        canvas.drawLine(x,y-50,x-20,y-75);//arrowhead
+        canvas.drawLine(x,y-50,x+20,y-75);
     }
 }
