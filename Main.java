@@ -3,71 +3,49 @@ import java.util.*;
 import java.io.*;
 
 /**
-
  * Main class
-
  *
-
  * @author Chris Fishback
-
  * @author Alli Jacobs
-
  * 
-
  * @version 1.0
-
  */
 
 public class Main
 
 {
-
-    
+    public static NFA nfa;
+    public static ArrayList<Node> shortPath;
 
     /**
-
      * Constructor for objects of class Main
-
      */
 
     public static void Main()
 
     {
-
-        NFA nfa = new NFA();
+       
+        nfa = new NFA();
         shortPath = new ArrayList<Node>();
-        
 
         //input for filename 
-
         Scanner scan = new Scanner( System.in );
-
         System.out.print("Enter the filename w/ the extension (ie. input.txt): "); //testCase1.txt
-
         String testCase = scan.nextLine();
 
-        
-
         //create the NFA
-
         nfa.createNFA(testCase);
 
-        
-
         //input for string to run through nfa
-
         System.out.print("Enter a string of 1's and 0's: "); //testCase1.txt
-
         String inputString = scan.nextLine();
         
         int animateString = Integer.parseInt(inputString);
-        
         Animator animate = new Animator(animateString);
 
-        String[] sString = inputString.split("(?!^)");
-        
-        Node startNode = new Node(0, null);
-        
+        String[] sString = inputString.split("(?!^)");        
+       
+        Node startNode = new Node(0, null);      
         shortestPath(sString, 0, startNode);
         
         //if there is no accepting string
