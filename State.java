@@ -14,11 +14,12 @@ public class State
     public boolean acceptState;
     public List<Integer> zeroList;
     public List<Integer> oneList;
+    public List<Integer> emptyStringList;
     
     /**
      * Constructor for objects of class state
      */
-    public State(List<Integer> z, List<Integer> o, int accept)
+    public State(List<Integer> z, List<Integer> o, List<Integer> e, int accept)
     {
         if(accept == 1)
             acceptState = true;
@@ -27,6 +28,7 @@ public class State
         
         zeroList = new ArrayList(z);   
         oneList = new ArrayList(o);
+        emptyStringList = new ArrayList(e);
     }
 
     public boolean checkAccept()
