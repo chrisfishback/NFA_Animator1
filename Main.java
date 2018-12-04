@@ -78,7 +78,7 @@ public class Main
         System.out.println("end of program");
     }
     
-    public static void shortestPath(String[] input, int currInputIndex, Node node) {
+   public static void shortestPath(String[] input, int currInputIndex, Node node) {
         
         // Base case: Check if the string is empty.
         if(currInputIndex == input.length) //base case
@@ -93,21 +93,36 @@ public class Main
         }
             
         // 1. Save the current string character to a variable
-        int currInputChar = Integer.parseInt(input[currInputIndex]);
+        String currInputChar = input[currInputIndex];
         
         // 2. Put all of the states that can be reached from the current state using the current character in a list.
         State state = nfa.listOfStates.get(node.state);
         List<Integer> stateList;
-        if(currInputChar == 0)
+        if(currInputChar == "0")
             stateList = state.zeroList;
-        else   
+        else
             stateList = state.oneList;
         
         List<Node> nodeList = new ArrayList<Node>();
         // 3. Convert the state list into a list of nodes.
-        for(int i = 0; i < stateList.size(); i++)
+        int l = 0;
+        while(l < stateList.size())
         {
-            nodeList.add(new Node(stateList.get(i), node));
+            nodeList.add(new Node(stateList.get(l), node));
+            l++;
+        }
+        
+        //add the empty list onto the statelist as well
+        if(!state.emptyStringList.isEmpty())
+        {
+            int j = 0;
+            while( j < state.emptyStringList.size())
+            {
+                nodeList.add(new Node(state.emptyStringList.get(j), node));
+                nodeList.get(l).emptyString = true;
+                j++;
+                l++;
+            }
         }
         
         // 4. Set each node in the list to have a parent of the current node.
@@ -116,7 +131,10 @@ public class Main
         // 5. For each node in the list, recursively call this function on that node with the updated string.
         for(int i = 0; i < nodeList.size(); i++)
         {
-            shortestPath(input, currInputIndex+1, nodeList.get(i));
+            if(nodeList.get(i).emptyString)
+                shortestPath(input, currInputIndex, nodeList.get(i));
+            else
+                shortestPath(input, currInputIndex+1, nodeList.get(i));
         }
     }
 }
@@ -127,9 +145,11 @@ class Node
 {
     public int state;
     public Node parent;
+    public boolean emptyString;
     
     public Node(int s, Node par)
     {
+        emptyString = false;
         state = s;
         parent = par;
     }
