@@ -42,6 +42,7 @@ public class Animator
         this.node(canvas,x,3*y);
         this.lineE(canvas,x,y);
         this.lineZero(canvas,x,y);
+        this.lineOne(canvas,x,y);
     }
 
     public void node(Graphics canvas, int x, int y)
