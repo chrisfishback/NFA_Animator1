@@ -41,6 +41,7 @@ public class NFA
 
             ArrayList<Integer> zeroTrans = new ArrayList<Integer>(); //temp 
             ArrayList<Integer> oneTrans = new ArrayList<Integer>(); //temp
+            ArrayList<Integer> emptyTrans = new ArrayList<Integer>(); //temp
            
             // Always wrap FileReader in BufferedReader
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -49,6 +50,12 @@ public class NFA
             
             while((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
+                
+                if(line.equals("n/a"))
+                {
+                    index++;
+                    continue;
+                }
                 
                 //gets the start state
                 if(lineNum == 1)
@@ -80,17 +87,26 @@ public class NFA
                             oneTrans.add(Integer.parseInt(s));
                     }
                     
-                    //get the acceptance
+                    //get all empty string transitions
                     if(index == 3) 
+                    {
+                        String[] tmp = line.split(" ");    //Split at the spaces
+                        for(String s: tmp)
+                            emptyTrans.add(Integer.parseInt(s));
+                    }
+                    
+                    //get the acceptance
+                    if(index == 4) 
                     {
                         accState = Integer.parseInt(line);
                         
-                        listOfStates.add(new State(zeroTrans, oneTrans, accState));
+                        listOfStates.add(new State(zeroTrans, oneTrans, emptyTrans, accState));
                         index = 0;
                     
                         //reset temp trans array lists
                         zeroTrans.clear();
                         oneTrans.clear();
+                        emptyTrans.clear();
                         
                         //increase number of states
                         numStates++;
