@@ -19,6 +19,9 @@ public class Animator
     protected int x = 100; // my x coordinate
     protected int y = 100; // my y coordinate
     protected int diameter = 50; //my diameter
+    protected String e = "e";
+    protected String zero = "0";
+    protected String one = "1";
 
     public Animator(int string)
     {
@@ -29,29 +32,16 @@ public class Animator
         myFrame.setSize(1000,1000);
     }
 
-    public void animateNFA()
-    {
-
-    }
-
     public void paint (Graphics canvas, int numStates)
     {
-        int node=numStates;
-        int i=1;
-        String nodeNames="q0 q1 q2 q3 q4 q5 q6 q7 q8 q9";
-        int nameEachNode= nodeNames.length();
-        char name=nodeNames.charAt(10);
         this.startNode(canvas, x, y);
-        while (i < node)
-        {
-            this.node(canvas,x*i,y);
-            i++;
-        }
-    }
-
-    public void printInputString()
-    {
-
+        this.acceptNode(canvas,2*x,y);
+        this.node(canvas,3*x,y);
+        this.acceptNode(canvas,x,2*y);
+        this.node(canvas,2*x,2*y);
+        this.node(canvas,x,3*y);
+        this.lineE(canvas,x,y);
+        this.lineZero(canvas,x,y);
     }
 
     public void node(Graphics canvas, int x, int y)
@@ -70,8 +60,10 @@ public class Animator
     {
         canvas.setColor(Color.WHITE);
         canvas.fillOval(x,y, diameter, diameter);//node
-        canvas.drawLine(x-50,y,x-75,y-20);//arrowhead
-        canvas.drawLine(x-50,y,x-75,y+20);
+        canvas.setColor(Color.BLACK);
+        canvas.drawLine((x/2),y,x-75,y-20);//arrowhead
+        canvas.drawLine((x/2),y,x-75,y+20);
+        canvas.drawLine((x/2),y,x-75,y);
     }
 
     public void acceptNode (Graphics canvas, int x, int y)
@@ -84,14 +76,49 @@ public class Animator
         canvas.fillOval(x,y, diameter+4, diameter+4);
         canvas.setColor(Color.WHITE);
         canvas.fillOval(x,y, diameter, diameter);//node
-
     }
 
-    public void lineToSameNode(Graphics canvas, int x, int y)
+    public void lineE (Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.BLACK);
-        canvas.drawArc (x, y, 20, 25,0,360);
-        canvas.drawLine(x,y-50,x-20,y-75);//arrowhead
-        canvas.drawLine(x,y-50,x+20,y-75);
+        canvas.drawString(e,(x+50),(y-10));
+        canvas.drawLine(x+25,y,(2*x)-25,y);
+        canvas.drawLine((2*x)-25,y,(2*x)-30,y-10);
+        canvas.drawLine((2*x)-25,y,(2*x)-30,y+10);
+        canvas.drawString(e,(x+10),(y+50));
+        canvas.drawLine(x,y+25,x,(2*y)-25);
+        canvas.drawLine(x,(2*y)-25,x-10,(2*y)-30);
+        canvas.drawLine(x,(2*y)-25,x+10,(2*y)-30);
     }
+
+    public void lineZero (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawString(zero,(2*x)+50,y-10);
+        canvas.drawLine((2*x)+25,y,(3*x)-25,y);
+        canvas.drawLine((2*x)+25,y,(2*x)+30,y-10);
+        canvas.drawLine((2*x)+25,y,(2*x)+30,y+10);
+        canvas.drawLine((3*x)-25,y,(3*x)-25,y);
+        canvas.drawLine((3*x)-25,y,(3*x)-25,y);
+    }
+
+    public void lineOne (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawLine(x,(2*y)+25,x,(3*y)-25);
+        canvas.drawLine(x,(2*y)+25,x+10,(3*y)-30);
+        canvas.drawLine(x,(2*y)+25,x+10,(3*y)+30);
+        canvas.drawString(one, x+10,(2*y)+50);
+        canvas.drawLine(x+25,(2*y),(2*x)-25,(2*y));
+        canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)-10);
+        canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)+10);
+        canvas.drawString(one,(2*x)-50,(2*y)-10);
+        canvas.drawLine((2*x),(2*y)+25,x+25,(y*2));
+        canvas.drawLine(x+25,(y*2),x+30,(y*2)-10);
+        canvas.drawLine(x+25,(y*2),x+30,(y*2)+10);
+        canvas.drawString(one,x+25,(2*y)+50);
+    }
+
+    public void animateNFA(){}
+
 }
