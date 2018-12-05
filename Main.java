@@ -11,12 +11,22 @@ import java.io.*;
  * @version 1.0
  */
 
-public class Main
+public class Main extends JPanel
 
 {
     public static NFA nfa;
     public static ArrayList<Node> shortPath;
     public static boolean breakRec;
+    
+    /////////////////////////////////////////////////
+    
+    protected int x = 100; // my x coordinate
+    protected int y = 100; // my y coordinate
+    protected int diameter = 50; //my diameter
+    protected String e = "e";
+    protected String zero = "0";
+    protected String one = "1";
+
 
     /**
      * Constructor for objects of class Main
@@ -66,6 +76,105 @@ public class Main
         } 
         
         System.out.println("end of program");
+        
+        /////////////////////////////////////////////////////////////////////////
+        //Animation Code:
+        JFrame myFrame = new JFrame();
+        Main animate = new Main();
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.setSize(1000,1000);
+        myFrame.add(animate);
+        myFrame.setVisible(true);
+    }
+    
+    
+    public void paint (Graphics canvas){
+        canvas.setColor(Color.BLACK);
+        //canvas.fillRect(0,0,100,100);
+        this.lineE(canvas,x,y);
+        this.lineZero(canvas,x,y);
+        this.lineOne(canvas,x,y);
+        this.startNode(canvas, x, y);
+        this.acceptNode(canvas,2*x,y);
+        this.node(canvas,3*x,y);
+        this.acceptNode(canvas,x,2*y);
+        this.node(canvas,2*x,2*y);
+        this.node(canvas,x,3*y);
+    }
+
+    public void node(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);
+    }
+
+    public void onNode(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.RED);
+        canvas.fillOval(x,y, diameter, diameter);
+    }
+
+    public void startNode (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);//node
+        canvas.setColor(Color.BLACK);
+        canvas.drawLine(x,y+25,x-25,y+25);//arrowhead
+        canvas.drawLine(x,y+25,x-25,y);
+        canvas.drawLine(x,y+25,x-25,y+50);
+    }
+
+    public void acceptNode (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.fillOval(x-6,y-6, diameter+12, diameter+12);
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x-4,y-4, diameter+8, diameter+8);
+        canvas.setColor(Color.BLACK);
+        canvas.fillOval(x-2,y-2, diameter+4, diameter+4);
+        canvas.setColor(Color.WHITE);
+        canvas.fillOval(x,y, diameter, diameter);//node
+    }
+
+    public void lineE (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawString(e,(x+60),(y+10));
+        canvas.drawLine(x+25,y+25,(2*x),y+25);
+        canvas.drawLine((2*x),y+25,(2*x)-30,y+35);
+        canvas.drawLine((2*x),y+25,(2*x)-30,y+15);
+        canvas.drawString(e,(x+30),(y+75));
+        canvas.drawLine(x+25,y+50,x+25,(2*y));
+        canvas.drawLine(x+25,(2*y),x+35,(2*y)-25);
+        canvas.drawLine(x+25,(2*y),x+15,(2*y)-25);
+    }
+
+    public void lineZero (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawString(zero,(2*x)+75,y+10);
+        canvas.drawLine((2*x)+50,y+25,(3*x),y+25);
+        canvas.drawLine((2*x)+56,y+25,(2*x)+70,y+15);
+        canvas.drawLine((2*x)+56,y+25,(2*x)+70,y+35);
+        canvas.drawLine((3*x),y+25,(3*x)-15,y+15);
+        canvas.drawLine((3*x),y+25,(3*x)-15,y+35);
+    }
+
+    public void lineOne (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLACK);
+        canvas.drawLine(x+25,(2*y)+50,x+25,(3*y));//line pointing down
+        //canvas.drawLine(x,(2*y)+25,x+10,(3*y)-30);
+        //canvas.drawLine(x,(2*y)+25,x+10,(3*y)+30);
+        canvas.drawString(one, x+10,(2*y)+50);
+        canvas.drawLine(x+25,(2*y)+25,(2*x),(2*y)+25);//line pointing across
+        //canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)-10);
+        //canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)+10);
+        canvas.drawString(one,(2*x)-50,(2*y)-10);
+        canvas.drawLine((2*x),(2*y)+25,x+25,(y*3));//line making triangle
+        //canvas.drawLine(x+25,(y*2),x+30,(y*2)-10);
+        //canvas.drawLine(x+25,(y*2),x+30,(y*2)+10);
+        canvas.drawString(one,x+25,(2*y)+50);
     }
     
     public static void shortestPath(String[] input, int currInputIndex, Node node) {
