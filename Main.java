@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 /**
  * Main class
  *
@@ -34,7 +37,9 @@ public class Main extends JPanel
     protected String qTwo = "q2";
     protected String qThree = "q3";
     protected String qFour = "q4";
-    protected String qFive = "q5";  
+    protected String qFive = "q5";
+    protected int timer = 5000;
+    protected long startTimer=System.currentTimeMillis();
 
     /**
      * Constructor for objects of class Main
@@ -43,6 +48,7 @@ public class Main extends JPanel
     public static void Main()
 
     {
+
         breakRec = false;
         nfa = new NFA();
         shortPath = new ArrayList<Node>();
@@ -63,6 +69,8 @@ public class Main extends JPanel
 
         Node startNode = new Node(0, null);      
         shortestPath(sString, 0, startNode);
+
+        Timer timerx = new Timer();
 
         //if there is no accepting string
         if(shortPath.isEmpty())
@@ -94,20 +102,33 @@ public class Main extends JPanel
         myFrame.setSize(1000,1000);
         myFrame.add(animate);
         myFrame.setVisible(true);
+
     }
 
-    public void paint (Graphics canvas){
-        canvas.setColor(Color.BLACK);
-        this.lineE(canvas,x,y);
-        this.lineZero(canvas,x,y);
-        this.lineOne(canvas,x,y);
-        this.startNode(canvas, x, y);
-        this.acceptNode(canvas,2*x,y);
-        this.node(canvas,3*x,y);
-        this.acceptNode(canvas,x,2*y);
-        this.node(canvas,2*x,2*y);
-        this.node(canvas,x,3*y);
-        this.qNames(canvas,x,y);
+    public void paint (Graphics canvas)
+    {
+        {
+            canvas.setColor(Color.BLACK);
+            this.lineE(canvas,x,y);
+            this.lineZero(canvas,x,y);
+            this.lineOne(canvas,x,y);
+            this.startNode(canvas, x, y);
+            this.acceptNode(canvas,2*x,y);
+            this.node(canvas,3*x,y);
+            this.acceptNode(canvas,x,2*y);
+            this.node(canvas,2*x,2*y);
+            this.node(canvas,x,3*y);
+            this.qNames(canvas,x,y);
+            if(System.currentTimeMillis()-startTimer<1000)
+            {
+                this.onNodeOne(canvas,x,y);
+            }
+            else
+            {
+                this.onNodeTwo(canvas,x,y);
+            }
+            repaint();
+        }
     }
 
     public void node(Graphics canvas, int x, int y)
@@ -116,9 +137,17 @@ public class Main extends JPanel
         canvas.fillOval(x,y, diameter, diameter);
     }
 
-    public void onNode(Graphics canvas, int x, int y)
+    public void onNodeOne(Graphics canvas, int x, int y)
     {
-        canvas.setColor(Color.RED);
+        for (Node node: shortPath){
+            canvas.setColor(Color.RED);
+            canvas.fillOval(x,y, diameter, diameter);
+        }
+    }
+
+    public void onNodeTwo(Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.WHITE);
         canvas.fillOval(x,y, diameter, diameter);
     }
 
@@ -215,7 +244,6 @@ public class Main extends JPanel
                     breakRec = true;
                 }
             }
-
             return;
         }
 
