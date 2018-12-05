@@ -23,6 +23,7 @@ public class Main extends JPanel
     public static NFA nfa;
     public static ArrayList<Node> shortPath;
     public static boolean breakRec;
+    public static List<Integer> shortestIntegerPath;
 
     /////////////////////////////////////////////////
 
@@ -46,7 +47,6 @@ public class Main extends JPanel
      */
 
     public static void Main()
-
     {
 
         breakRec = false;
@@ -69,9 +69,7 @@ public class Main extends JPanel
 
         Node startNode = new Node(0, null);      
         shortestPath(sString, 0, startNode);
-
-        Timer timerx = new Timer();
-
+        
         //if there is no accepting string
         if(shortPath.isEmpty())
         {
@@ -80,7 +78,7 @@ public class Main extends JPanel
         }
 
         //create an arraylist of integers that is the short path
-        List<Integer> shortestIntegerPath = new ArrayList<Integer>();
+        shortestIntegerPath = new ArrayList<Integer>();
         for (Node node : shortPath) { 
             shortestIntegerPath.add(node.state);
         } 
@@ -91,18 +89,17 @@ public class Main extends JPanel
             System.out.println(node);
         } 
 
-        System.out.println("end of program");
-
+        
         /////////////////////////////////////////////////////////////////////////
         //Animation Code:
-
+        
         JFrame myFrame = new JFrame();
         Main animate = new Main();
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setSize(1000,1000);
         myFrame.add(animate);
         myFrame.setVisible(true);
-
+        
     }
 
     public void paint (Graphics canvas)
@@ -119,15 +116,20 @@ public class Main extends JPanel
             this.node(canvas,2*x,2*y);
             this.node(canvas,x,3*y);
             this.qNames(canvas,x,y);
-            if(System.currentTimeMillis()-startTimer<1000)
+            
+            for (Integer node : shortestIntegerPath)
             {
-                this.onNodeOne(canvas,x,y);
+                if(System.currentTimeMillis()-startTimer<1000)
+                {
+                    this.onNodeOne(canvas,x,y);
+                }
+                else
+                {
+                    this.onNodeTwo(canvas,x,y);
+                }
+                
+                repaint();
             }
-            else
-            {
-                this.onNodeTwo(canvas,x,y);
-            }
-            repaint();
         }
     }
 
