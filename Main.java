@@ -53,17 +53,7 @@ public class Main
             System.exit(0);
         }
         
-        //make the list of accepting nodes
-        //Node currNode = shortPath.get(0);
-        
-        //while(currNode.parent!=null)
-        //{
-            //shortPath.add(0, currNode.parent);
-            //currNode = currNode.parent;
-        //}
-        
         //create an arraylist of integers that is the short path
-        //int i = 0;
         List<Integer> shortestIntegerPath = new ArrayList<Integer>();
         for (Node node : shortPath) { 
             shortestIntegerPath.add(node.state);
