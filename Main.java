@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
 /**
  * Main class
  *
@@ -24,6 +25,8 @@ public class Main extends JPanel
     public static ArrayList<Node> shortPath;
     public static boolean breakRec;
     public static List<Integer> shortestIntegerPath;
+    public static int currentState;
+    public static Color color;
 
     /////////////////////////////////////////////////
 
@@ -48,7 +51,8 @@ public class Main extends JPanel
 
     public static void Main()
     {
-
+        currentState = 0;
+        color = Color.WHITE;
         breakRec = false;
         nfa = new NFA();
         shortPath = new ArrayList<Node>();
@@ -91,116 +95,86 @@ public class Main extends JPanel
 
         /////////////////////////////////////////////////////////////////////////
         //Animation Code:
-
-        JFrame myFrame = new JFrame();
-        Main animate = new Main();
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(1000,1000);
-        myFrame.add(animate);
-        myFrame.setVisible(true);
-
+        if(testCase.equals("testCase1.txt"))
+        {
+            JFrame myFrame = new JFrame();
+            Main animate = new Main();
+            myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            myFrame.setSize(1000,1000);
+            myFrame.add(animate);
+            myFrame.setVisible(true);
+            for (Integer node : shortestIntegerPath)
+            {
+                currentState = node;
+                myFrame.repaint();
+                
+                try{
+                    TimeUnit.SECONDS.sleep(1);
+                }catch(InterruptedException e){}
+                
+            }
+        }
     }
 
     public void paint (Graphics canvas)
     {
         {
+            color = Color.WHITE;
             canvas.setColor(Color.BLACK);
             this.lineE(canvas,x,y);
             this.lineZero(canvas,x,y);
             this.lineOne(canvas,x,y);
-            this.startNode(canvas, x, y,Color.WHITE);
-            this.acceptNodeZero(canvas,2*x,y,Color.WHITE);
-            this.nodeZero(canvas,3*x,y,Color.WHITE);
-            this.acceptNodeOne(canvas,x,2*y,Color.WHITE);
-            this.nodeOne(canvas,2*x,2*y,Color.WHITE);
-            this.nodeOneOne(canvas,x,3*y,Color.WHITE);
-
-            for (Integer node : shortestIntegerPath)
-            {
-                //                 if(System.currentTimeMillis()-startTimer<1000)
-                //                 {
-                //                     this.onNodeOne(canvas,x,y);
-                //                 }
-                //                 else
-                //                 {
-                //                     this.onNodeTwo(canvas,x,y);
-                //                 }
-
-                try{
-                switch (node) {
-                    case 0 :
-                    this.acceptNodeZero(canvas,2*x,y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.acceptNodeZero(canvas,2*x,y,Color.WHITE);
-                    this.qNames(canvas,x,y);break;
-                    case 1:
-                    this.acceptNodeZero(canvas,2*x,y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.acceptNodeZero(canvas,2*x,y,Color.WHITE);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    break;
-                    case 2:
-                    this.nodeZero(canvas,3*x,y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.nodeZero(canvas,3*x,y,Color.WHITE);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    break;
-                    case 3:
-                    this.acceptNodeOne(canvas,x,2*y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.acceptNodeOne(canvas,x,2*y,Color.WHITE);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    break;
-                    case 4:
-                    this.nodeOne(canvas,2*x,2*y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.nodeOne(canvas,2*x,2*y,Color.WHITE);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    break;
-                    case 5:
-                    this.nodeOneOne(canvas,x,3*y,Color.RED);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    TimeUnit.SECONDS.sleep(2);
-                    this.nodeOneOne(canvas,x,3*y,Color.WHITE);
-                    this.qNames(canvas,x,y);
-                    repaint();
-                    break;
-                }
-            }catch(InterruptedException e){}
-                repaint();
-                //this.qNames(canvas,x,y);
+            this.startNode(canvas, x, y);
+            this.acceptNodeZero(canvas,2*x,y);
+            this.nodeZero(canvas,3*x,y);
+            this.acceptNodeOne(canvas,x,2*y);
+            this.nodeOne(canvas,2*x,2*y);
+            this.nodeOneOne(canvas,x,3*y);
+            
+            color = Color.RED;
+            switch (currentState) {
+                case 0 :
+                this.startNode(canvas, x, y);
+                this.qNames(canvas,x,y);
+                break;
+                case 1:
+                this.acceptNodeZero(canvas,2*x,y);
+                this.qNames(canvas,x,y);
+                break;
+                case 2:
+                this.nodeZero(canvas,3*x,y);
+                this.qNames(canvas,x,y);
+                break;
+                case 3:
+                this.acceptNodeOne(canvas,x,2*y);
+                this.qNames(canvas,x,y);
+                break;
+                case 4:
+                this.nodeOne(canvas,2*x,2*y);
+                this.qNames(canvas,x,y);
+                break;
+                case 5:
+                this.nodeOneOne(canvas,x,3*y);
+                this.qNames(canvas,x,y);
+                break;
             }
+   
         }
     }
 
-    public void nodeZero(Graphics canvas, int x, int y,Color color)
+    public void nodeZero(Graphics canvas, int x, int y)
     {
         canvas.setColor(color);
         canvas.fillOval(x,y, diameter, diameter);
     }
 
-    public void nodeOne(Graphics canvas, int x, int y,Color color)
+    public void nodeOne(Graphics canvas, int x, int y)
     {
         canvas.setColor(color);
         canvas.fillOval(x,y, diameter, diameter);
     }
 
-    public void nodeOneOne(Graphics canvas, int x, int y, Color color)
+    public void nodeOneOne(Graphics canvas, int x, int y)
     {
         canvas.setColor(color);
         canvas.fillOval(x,y, diameter, diameter);
@@ -220,7 +194,7 @@ public class Main extends JPanel
         canvas.fillOval(x,y, diameter, diameter);
     }
 
-    public void startNode (Graphics canvas, int x, int y, Color color)
+    public void startNode (Graphics canvas, int x, int y)
     {
         canvas.setColor(color);
         canvas.fillOval(x,y, diameter, diameter);//node
@@ -230,7 +204,7 @@ public class Main extends JPanel
         canvas.drawLine(x,y+25,x-25,y+50);
     }
 
-    public void acceptNodeZero (Graphics canvas, int x, int y, Color color)
+    public void acceptNodeZero (Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.BLACK);
         canvas.fillOval(x-6,y-6, diameter+12, diameter+12);
@@ -242,7 +216,7 @@ public class Main extends JPanel
         canvas.fillOval(x,y, diameter, diameter);//node
     }
 
-    public void acceptNodeOne (Graphics canvas, int x, int y, Color color)
+    public void acceptNodeOne (Graphics canvas, int x, int y)
     {
         canvas.setColor(Color.BLACK);
         canvas.fillOval(x-6,y-6, diameter+12, diameter+12);
