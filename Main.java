@@ -20,16 +20,21 @@ public class Main extends JPanel
     public static NFA nfa;
     public static ArrayList<Node> shortPath;
     public static boolean breakRec;
-    
+
     /////////////////////////////////////////////////
-    
+
     protected int x = 100; // my x coordinate
     protected int y = 100; // my y coordinate
     protected int diameter = 50; //my diameter
     protected String e = "e";
     protected String zero = "0";
     protected String one = "1";
-
+    protected String qZero = "q0";
+    protected String qOne = "q1";
+    protected String qTwo = "q2";
+    protected String qThree = "q3";
+    protected String qFour = "q4";
+    protected String qFive = "q5";  
 
     /**
      * Constructor for objects of class Main
@@ -55,33 +60,34 @@ public class Main extends JPanel
         String inputString = scan.nextLine();
 
         String[] sString = inputString.split("(?!^)");        
-       
+
         Node startNode = new Node(0, null);      
         shortestPath(sString, 0, startNode);
-        
+
         //if there is no accepting string
         if(shortPath.isEmpty())
         {
             System.out.println("String is not accepted");
             System.exit(0);
         }
-        
+
         //create an arraylist of integers that is the short path
         List<Integer> shortestIntegerPath = new ArrayList<Integer>();
         for (Node node : shortPath) { 
             shortestIntegerPath.add(node.state);
         } 
-        
+
         //reverse the arraylist path of integers so it starts at 0 and output
         Collections.reverse(shortestIntegerPath);
         for (Integer node : shortestIntegerPath) { 
             System.out.println(node);
         } 
-        
+
         System.out.println("end of program");
-        
+
         /////////////////////////////////////////////////////////////////////////
         //Animation Code:
+
         JFrame myFrame = new JFrame();
         Main animate = new Main();
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,11 +95,9 @@ public class Main extends JPanel
         myFrame.add(animate);
         myFrame.setVisible(true);
     }
-    
-    
+
     public void paint (Graphics canvas){
         canvas.setColor(Color.BLACK);
-        //canvas.fillRect(0,0,100,100);
         this.lineE(canvas,x,y);
         this.lineZero(canvas,x,y);
         this.lineOne(canvas,x,y);
@@ -103,6 +107,7 @@ public class Main extends JPanel
         this.acceptNode(canvas,x,2*y);
         this.node(canvas,2*x,2*y);
         this.node(canvas,x,3*y);
+        this.qNames(canvas,x,y);
     }
 
     public void node(Graphics canvas, int x, int y)
@@ -167,21 +172,33 @@ public class Main extends JPanel
     {
         canvas.setColor(Color.BLACK);
         canvas.drawLine(x+25,(2*y)+50,x+25,(3*y));//line pointing down
-        //canvas.drawLine(x,(2*y)+25,x+10,(3*y)-30);
-        //canvas.drawLine(x,(2*y)+25,x+10,(3*y)+30);
-        canvas.drawString(one, x+10,(2*y)+50);
+        canvas.drawLine(x+25,(2*y)+50,x+15,(3*y)-30);
+        canvas.drawLine(x+25,(2*y)+50,x+35,(3*y)-30);
+        canvas.drawString(one, x+65,(2*y)+10);
         canvas.drawLine(x+25,(2*y)+25,(2*x),(2*y)+25);//line pointing across
-        //canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)-10);
-        //canvas.drawLine((2*x)-25,(2*y),(2*x)-30,(2*y)+10);
-        canvas.drawString(one,(2*x)-50,(2*y)-10);
+        canvas.drawLine((2*x),(2*y)+25,(2*x)-15,(2*y)+15);
+        canvas.drawLine((2*x),(2*y)+25,(2*x)-15,(2*y)+35);
+        canvas.drawString(one,(2*x)-30,(3*y)-15);
         canvas.drawLine((2*x),(2*y)+25,x+25,(y*3));//line making triangle
-        //canvas.drawLine(x+25,(y*2),x+30,(y*2)-10);
-        //canvas.drawLine(x+25,(y*2),x+30,(y*2)+10);
-        canvas.drawString(one,x+25,(2*y)+50);
+        canvas.drawLine((x)+25,(y*3),(x+30),(y*3)-15);
+        canvas.drawLine(x+25,(y*3),x+40,(y*3)-5);
+        canvas.drawString(one,x,(3*y)-10);
     }
-    
+
+    public void qNames (Graphics canvas, int x, int y)
+    {
+        canvas.setColor(Color.BLUE);
+        canvas.drawString(qZero,x+12,y+25);
+        canvas.drawString(qOne,(x*2)+12,y+25);
+        canvas.drawString(qTwo,(3*x)+12,y+25);
+        canvas.drawString(qThree,x+12,(2*y)+25);
+        canvas.drawString(qFour,(2*x)+12,(2*y)+25);
+        canvas.drawString(qFive,x+12,(3*y)+25);
+
+    }
+
     public static void shortestPath(String[] input, int currInputIndex, Node node) {
-        
+
         // Base case: Check if the string is empty.
         if(currInputIndex == input.length) //base case
         {
@@ -198,13 +215,13 @@ public class Main extends JPanel
                     breakRec = true;
                 }
             }
-                
+
             return;
         }
-            
+
         // 1. Save the current string character to a variable
         String currInputChar = input[currInputIndex];
-        
+
         // 2. Put all of the states that can be reached from the current state using the current character in a list.
         State state = nfa.listOfStates.get(node.state);
         List<Integer> stateList;
@@ -212,7 +229,7 @@ public class Main extends JPanel
             stateList = state.zeroList;
         else
             stateList = state.oneList;
-        
+
         List<Node> nodeList = new ArrayList<Node>();
         // 3. Convert the state list into a list of nodes.
         int l = 0;
@@ -221,7 +238,7 @@ public class Main extends JPanel
             nodeList.add(new Node(stateList.get(l), node));
             l++;
         }
-        
+
         //add the empty list onto the statelist as well
         if(!state.emptyStringList.isEmpty())
         {
@@ -234,10 +251,10 @@ public class Main extends JPanel
                 l++;
             }
         }
-        
+
         // 4. Set each node in the list to have a parent of the current node.
         // already done above ^^^
-        
+
         // 5. For each node in the list, recursively call this function on that node with the updated string.
         for(int i = 0; i < nodeList.size(); i++)
         {
@@ -252,14 +269,13 @@ public class Main extends JPanel
     }
 }
 
-
 //used to keep track of path through the NFA
 class Node
 {
     public int state;
     public Node parent;
     public boolean emptyString;
-    
+
     public Node(int s, Node par)
     {
         emptyString = false;
