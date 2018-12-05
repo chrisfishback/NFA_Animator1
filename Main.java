@@ -16,6 +16,7 @@ public class Main
 {
     public static NFA nfa;
     public static ArrayList<Node> shortPath;
+    public static boolean breakRec;
 
     /**
      * Constructor for objects of class Main
@@ -24,7 +25,7 @@ public class Main
     public static void Main()
 
     {
-       
+        breakRec = false;
         nfa = new NFA();
         shortPath = new ArrayList<Node>();
 
@@ -39,9 +40,6 @@ public class Main
         //input for string to run through nfa
         System.out.print("Enter a string of 1's and 0's: "); //testCase1.txt
         String inputString = scan.nextLine();
-        
-        int animateString = Integer.parseInt(inputString);
-        Animator animate = new Animator(animateString);
 
         String[] sString = inputString.split("(?!^)");        
        
@@ -56,29 +54,31 @@ public class Main
         }
         
         //make the list of accepting nodes
-        Node currNode = shortPath.get(0);
+        //Node currNode = shortPath.get(0);
         
-        while(currNode.parent!=null)
-        {
-            shortPath.add(0, currNode.parent);
-            currNode = currNode.parent;
-        }
+        //while(currNode.parent!=null)
+        //{
+            //shortPath.add(0, currNode.parent);
+            //currNode = currNode.parent;
+        //}
         
         //create an arraylist of integers that is the short path
-        int i = 0;
+        //int i = 0;
         List<Integer> shortestIntegerPath = new ArrayList<Integer>();
         for (Node node : shortPath) { 
             shortestIntegerPath.add(node.state);
-            System.out.println(node.state);
-            if(i >= sString.length)
-                break;
-            i++;
+        } 
+        
+        //reverse the arraylist path of integers so it starts at 0 and output
+        Collections.reverse(shortestIntegerPath);
+        for (Integer node : shortestIntegerPath) { 
+            System.out.println(node);
         } 
         
         System.out.println("end of program");
     }
     
-   public static void shortestPath(String[] input, int currInputIndex, Node node) {
+    public static void shortestPath(String[] input, int currInputIndex, Node node) {
         
         // Base case: Check if the string is empty.
         if(currInputIndex == input.length) //base case
@@ -86,7 +86,15 @@ public class Main
             if(nfa.listOfStates.get(node.state).acceptState)
             {
                 if(node!=null)
+                {
+                    while(node.parent!=null)
+                    {
+                        shortPath.add(node);
+                        node = node.parent;
+                    }
                     shortPath.add(node);
+                    breakRec = true;
+                }
             }
                 
             return;
@@ -98,7 +106,7 @@ public class Main
         // 2. Put all of the states that can be reached from the current state using the current character in a list.
         State state = nfa.listOfStates.get(node.state);
         List<Integer> stateList;
-        if(currInputChar == "0")
+        if(currInputChar.equals("0"))
             stateList = state.zeroList;
         else
             stateList = state.oneList;
@@ -131,10 +139,13 @@ public class Main
         // 5. For each node in the list, recursively call this function on that node with the updated string.
         for(int i = 0; i < nodeList.size(); i++)
         {
-            if(nodeList.get(i).emptyString)
-                shortestPath(input, currInputIndex, nodeList.get(i));
-            else
-                shortestPath(input, currInputIndex+1, nodeList.get(i));
+            if(!breakRec)
+            {
+                if(nodeList.get(i).emptyString)
+                    shortestPath(input, currInputIndex, nodeList.get(i));
+                else
+                    shortestPath(input, currInputIndex+1, nodeList.get(i));
+            }
         }
     }
 }
